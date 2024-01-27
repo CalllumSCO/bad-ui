@@ -1,95 +1,57 @@
+"use client"
+
 import Image from "next/image";
 import styles from "./page.module.css";
+import Textwall from "./components/textwall";
+import ConfirmReadButton from "./components/ConfirmReadButton";
+
+import { useState, useEffect } from 'react';
+import GoodForm from "./components/GoodForm";
+
+
 
 export default function Home() {
+
+  const [countdown, setCountdown] = useState(60);
+  const [checkRead, setCheckread] = useState(false);
+  const [buttonClicked, setButtonClicked] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+        setCountdown(prevCountdown => prevCountdown - 1);
+    }, 1000);
+    return () => clearInterval(interval);
+}, [countdown]);
+
+
+    const action = () => {
+      setButtonClicked(true);
+
+      if (countdown <= 0){
+        setCheckread(true);
+      }
+    }
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+    <main>
+      <h2>play for an enhanced experience</h2>
+      <audio controls loop>
+            <source className = 'skibidi' src="./skibidi-toilet.mp3" type="audio/ogg"></source>
+      </audio>
+      <br></br>
+      <h1>Welcome to my very important form!!!!</h1>
+      <br />
+      <h2>Are you ready for the best form experience of your entire life??????</h2>
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+      <h2>Well first, let's make sure you know what a form is!!!</h2>
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
+     <Textwall />
+     {buttonClicked && 
+      <h1>YOU HAVE NOT READ THE DISCRIPTION, PLEASE MAKE SURE YOU ARE A FORM EXPERT. YOU HAVE TO WAIT THIS LONG AS PUNISHMENT       {countdown}</h1>
+    }
+     <button onClick={action}>I have totally read this, and I am now a certfied EXPERT on forms 🔥💯</button>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
+     {buttonClicked && countdown < 0 && <GoodForm />}
     </main>
-  );
+  )
 }
